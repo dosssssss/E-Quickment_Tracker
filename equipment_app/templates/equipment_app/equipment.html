@@ -1,7 +1,12 @@
 {% extends 'equipment_app/base.html' %}
 
 {% block content %}
-<h2 class="mb-4">Equipment</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Equipment</h2>
+    <a href="/admin/equipment_app/equipment/add/" class="btn btn-primary">
+        + Add Equipment
+    </a>
+</div>
 
 <div class="card-box">
     <table class="table table-dark table-hover">
