@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Student, Equipment, BorrowRecord
+from django.utils.timezone import now
 
 
 @admin.register(Student)
@@ -16,6 +17,7 @@ class EquipmentAdmin(admin.ModelAdmin):
     ordering = ('name',)
 
 
+
 @admin.register(BorrowRecord)
 class BorrowRecordAdmin(admin.ModelAdmin):
     list_display = (
@@ -27,10 +29,22 @@ class BorrowRecordAdmin(admin.ModelAdmin):
         'expected_return',
         'date_returned',
     )
+
     search_fields = (
         'student__student_id',
         'student__name',
         'equipment__name',
     )
+
     list_filter = ('status', 'equipment')
     ordering = ('-date_borrowed',)
+
+    def changelist_view(self, request, extra_context=None):
+        today = now().date()
+
+        BorrowRecord.objects.filter(
+            status='Borrowed',
+            expected_return__lt=today
+        ).update(status='Overdue')
+
+        return super().changelist_view(request, extra_context)

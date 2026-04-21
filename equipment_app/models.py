@@ -24,10 +24,11 @@ class Equipment(models.Model):
 
 class BorrowRecord(models.Model):
     STATUS_CHOICES = [
-        ('Borrowed', 'Borrowed'),
-        ('Returned', 'Returned'),
-        ('Overdue', 'Overdue'),
-    ]
+    ('Borrowed', 'Borrowed'),
+    ('Returned', 'Returned'),
+    ('Overdue', 'Overdue'),
+    ('Lost', 'Lost'),
+]
 
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
