@@ -3,7 +3,7 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Students</h2>
-    <a href="/admin/equipment_app/student/add/" class="btn btn-primary">
+    <a href="/students/add/" class="btn btn-primary">
         + Add Student
     </a>
 </div>
@@ -16,6 +16,7 @@
                 <th>Name</th>
                 <th>Course</th>
                 <th>Year Level</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -25,6 +26,19 @@
                 <td>{{ student.name }}</td>
                 <td>{{ student.course }}</td>
                 <td>{{ student.year_level }}</td>
+                <td>
+   <td>
+    <a href="/students/edit/{{ student.id }}/" class="btn btn-sm btn-warning">
+        Edit
+    </a>
+
+    <a href="/students/delete/{{ student.id }}/"
+       class="btn btn-sm btn-danger"
+       onclick="return confirm('Delete this student?');">
+        Delete
+    </a>
+</td>
+                </td>
             </tr>
             {% empty %}
             <tr>

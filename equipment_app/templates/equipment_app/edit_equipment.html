@@ -1,0 +1,29 @@
+{% extends 'equipment_app/base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Edit Equipment</h2>
+
+<div class="card-box">
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label>Name</label>
+            <input type="text" name="name" class="form-control" value="{{ item.name }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Total Quantity</label>
+            <input type="number" name="total_quantity" class="form-control" value="{{ item.total_quantity }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Available Quantity</label>
+            <input type="number" name="available_quantity" class="form-control" value="{{ item.available_quantity }}" required>
+        </div>
+
+        <button class="btn btn-success">Update Equipment</button>
+        <a href="/equipment/" class="btn btn-secondary">Back</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'equipment_app/base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Add Borrow Record</h2>
+
+<div class="card-box">
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label>Student</label>
+            <select name="student" class="form-control" required>
+                {% for student in students %}
+                <option value="{{ student.id }}">{{ student }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Equipment</label>
+            <select name="equipment" class="form-control" required>
+                {% for item in items %}
+                <option value="{{ item.id }}">{{ item.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Quantity</label>
+            <input type="number" name="quantity" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Expected Return</label>
+            <input type="date" name="expected_return" class="form-control" required>
+        </div>
+
+        <button class="btn btn-success">Save Borrow Record</button>
+        <a href="/borrow-records/" class="btn btn-secondary">Back</a>
+    </form>
+</div>
+{% endblock %}

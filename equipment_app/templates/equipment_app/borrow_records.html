@@ -3,7 +3,7 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Borrow Records</h2>
-    <a href="/admin/equipment_app/borrowrecord/add/" class="btn btn-primary">
+    <a href="/borrow-records/add/" class="btn btn-primary">
         + Add Borrow
     </a>
 </div>
@@ -18,6 +18,7 @@
                 <th>Status</th>
                 <th>Borrowed</th>
                 <th>Expected Return</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -30,6 +31,17 @@
                 <td>{{ record.date_borrowed }}</td>
                 <td>{{ record.expected_return }}</td>
             </tr>
+            <td>
+    {% if record.status == 'Borrowed' or record.status == 'Overdue' %}
+        <a href="/borrow-records/return/{{ record.id }}/"
+           class="btn btn-sm btn-success"
+           onclick="return confirm('Mark as returned?');">
+           Return
+        </a>
+    {% else %}
+        -
+    {% endif %}
+</td>
             {% empty %}
             <tr>
                 <td colspan="6">No records found.</td>

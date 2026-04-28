@@ -32,13 +32,16 @@ body{
         {% csrf_token %}
         <div class="mb-3">
             <label>Username</label>
-            <input type="text" class="form-control">
+            <input type="text" name="username" class="form-control" required>
         </div>
 
         <div class="mb-3">
             <label>Password</label>
-            <input type="password" class="form-control">
+            <input type="password" name="password" class="form-control" required>
         </div>
+        {% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
 
         <button class="btn btn-primary w-100">Login</button>
     </form>

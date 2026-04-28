@@ -1,28 +1,64 @@
 {% extends 'equipment_app/base.html' %}
 
 {% block content %}
-<h2 class="mb-4">Dashboard</h2>
+<h1 class="mb-4">Dashboard</h1>
 
-<div class="row g-4">
-    <div class="col-md-4">
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
         <div class="card-box">
             <h5>Total Students</h5>
             <h2>{{ students_count }}</h2>
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card-box">
             <h5>Total Equipment</h5>
             <h2>{{ equipment_count }}</h2>
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card-box">
             <h5>Active Borrowed</h5>
             <h2>{{ borrowed_count }}</h2>
         </div>
     </div>
+
+    <div class="col-md-3">
+        <div class="card-box">
+            <h5>Overdue</h5>
+            <h2>{{ overdue_count }}</h2>
+        </div>
+    </div>
+</div>
+
+<div class="card-box">
+    <h4 class="mb-3">Recent Transactions</h4>
+
+    <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Equipment</th>
+                <th>Qty</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in recent_records %}
+            <tr>
+                <td>{{ record.student }}</td>
+                <td>{{ record.equipment }}</td>
+                <td>{{ record.quantity }}</td>
+                <td>{{ record.status }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No transactions found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
