@@ -87,36 +87,4 @@ class BorrowRecord(models.Model):
 
     def __str__(self):
         return f"{self.student} - {self.equipment}"
-
-def save(self, *args, **kwargs):
-    is_new = self.pk is None
-
-    self.full_clean()
-
-    if is_new:
-        super().save(*args, **kwargs)
-
-        equipment = Equipment.objects.get(pk=self.equipment.pk)
-        equipment.available_quantity -= self.quantity
-        equipment.save()
-
-    else:
-        old = BorrowRecord.objects.get(pk=self.pk)
-
-        # Block changing a returned record to another status
-        if old.status == 'Returned' and self.status in ['Borrowed', 'Overdue']:
-            raise ValidationError("Returned records cannot be changed back.")
-
-        # Restore stock only once
-        if old.status in ['Borrowed', 'Overdue'] and self.status == 'Returned':
-            equipment = Equipment.objects.get(pk=self.equipment.pk)
-            equipment.available_quantity += self.quantity
-            equipment.save()
-
-            if not self.date_returned:
-                self.date_returned = now().date()
-
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"{self.student} - {self.equipment}"
+

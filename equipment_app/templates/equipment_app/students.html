@@ -1,51 +1,53 @@
 {% extends 'equipment_app/base.html' %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Students</h2>
+<div class="page-header">
+    <h1 class="page-title">Students</h1>
     <a href="/students/add/" class="btn btn-primary">
-        + Add Student
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 8px;">
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+        Add Student
     </a>
 </div>
 
-<div class="card-box">
-    <table class="table table-dark table-hover">
-        <thead>
-            <tr>
-                <th>Student ID</th>
-                <th>Name</th>
-                <th>Course</th>
-                <th>Year Level</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for student in students %}
-            <tr>
-                <td>{{ student.student_id }}</td>
-                <td>{{ student.name }}</td>
-                <td>{{ student.course }}</td>
-                <td>{{ student.year_level }}</td>
-                <td>
-   <td>
-    <a href="/students/edit/{{ student.id }}/" class="btn btn-sm btn-warning">
-        Edit
-    </a>
-
-    <a href="/students/delete/{{ student.id }}/"
-       class="btn btn-sm btn-danger"
-       onclick="return confirm('Delete this student?');">
-        Delete
-    </a>
-</td>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4">No students found.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="card">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Course</th>
+                    <th>Year Level</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td style="font-weight: 500; color: var(--primary);">{{ student.student_id }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.course }}</td>
+                    <td>Year {{ student.year_level }}</td>
+                    <td>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <a href="/students/edit/{{ student.id }}/" class="btn" style="background-color: #fef3c7; color: #92400e; padding: 0.375rem 0.75rem;">
+                                Edit
+                            </a>
+                            <a href="/students/delete/{{ student.id }}/" class="btn btn-danger" style="padding: 0.375rem 0.75rem;" onclick="return confirm('Delete this student?');">
+                                Delete
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2rem;">No students found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}
