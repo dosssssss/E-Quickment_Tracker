@@ -1,53 +1,66 @@
 {% extends 'equipment_app/base.html' %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Borrow Records</h2>
+<div class="page-header">
+    <h1 class="page-title">Borrow Records</h1>
     <a href="/borrow-records/add/" class="btn btn-primary">
-        + Add Borrow
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 8px;">
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+        New Borrow Record
     </a>
 </div>
 
-<div class="card-box">
-    <table class="table table-dark table-hover">
-        <thead>
-            <tr>
-                <th>Student</th>
-                <th>Equipment</th>
-                <th>Qty</th>
-                <th>Status</th>
-                <th>Borrowed</th>
-                <th>Expected Return</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for record in records %}
-            <tr>
-                <td>{{ record.student }}</td>
-                <td>{{ record.equipment }}</td>
-                <td>{{ record.quantity }}</td>
-                <td>{{ record.status }}</td>
-                <td>{{ record.date_borrowed }}</td>
-                <td>{{ record.expected_return }}</td>
-            </tr>
-            <td>
-    {% if record.status == 'Borrowed' or record.status == 'Overdue' %}
-        <a href="/borrow-records/return/{{ record.id }}/"
-           class="btn btn-sm btn-success"
-           onclick="return confirm('Mark as returned?');">
-           Return
-        </a>
-    {% else %}
-        -
-    {% endif %}
-</td>
-            {% empty %}
-            <tr>
-                <td colspan="6">No records found.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="card">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Equipment</th>
+                    <th>Qty</th>
+                    <th>Status</th>
+                    <th>Borrowed</th>
+                    <th>Expected Return</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td style="font-weight: 500;">{{ record.student }}</td>
+                    <td>{{ record.equipment }}</td>
+                    <td>{{ record.quantity }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if record.status == 'Borrowed' %}badge-info
+                            {% elif record.status == 'Returned' %}badge-success
+                            {% elif record.status == 'Overdue' %}badge-danger
+                            {% else %}badge-warning{% endif %}">
+                            {{ record.status }}
+                        </span>
+                    </td>
+                    <td>{{ record.date_borrowed|date:"M d, Y" }}</td>
+                    <td>{{ record.expected_return|date:"M d, Y" }}</td>
+                    <td>
+                        {% if record.status == 'Borrowed' or record.status == 'Overdue' %}
+                            <a href="/borrow-records/return/{{ record.id }}/"
+                               class="btn" style="background-color: #dcfce7; color: #166534; padding: 0.375rem 0.75rem;"
+                               onclick="return confirm('Mark as returned?');">
+                               Return
+                            </a>
+                        {% else %}
+                            <span style="color: var(--text-muted); padding-left: 1rem;">-</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">No borrow records found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

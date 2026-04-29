@@ -1,64 +1,99 @@
 {% extends 'equipment_app/base.html' %}
 
 {% block content %}
-<h1 class="mb-4">Dashboard</h1>
+<div class="page-header">
+    <h1 class="page-title">Dashboard Overview</h1>
+</div>
 
-<div class="row g-4 mb-4">
-    <div class="col-md-3">
-        <div class="card-box">
-            <h5>Total Students</h5>
-            <h2>{{ students_count }}</h2>
-        </div>
+<div class="dashboard-grid">
+    <div class="card stat-card">
+        <div class="stat-title">Total Students</div>
+        <div class="stat-value">{{ students_count }}</div>
     </div>
 
-    <div class="col-md-3">
-        <div class="card-box">
-            <h5>Total Equipment</h5>
-            <h2>{{ equipment_count }}</h2>
-        </div>
+    <div class="card stat-card">
+        <div class="stat-title">Total Equipment</div>
+        <div class="stat-value">{{ equipment_count }}</div>
     </div>
 
-    <div class="col-md-3">
-        <div class="card-box">
-            <h5>Active Borrowed</h5>
-            <h2>{{ borrowed_count }}</h2>
-        </div>
+    <div class="card stat-card">
+        <div class="stat-title">Active Borrowed</div>
+        <div class="stat-value" style="color: var(--primary);">{{ borrowed_count }}</div>
     </div>
 
-    <div class="col-md-3">
-        <div class="card-box">
-            <h5>Overdue</h5>
-            <h2>{{ overdue_count }}</h2>
-        </div>
+    <div class="card stat-card">
+        <div class="stat-title">Overdue</div>
+        <div class="stat-value" style="color: #ef4444;">{{ overdue_count }}</div>
     </div>
 </div>
 
-<div class="card-box">
-    <h4 class="mb-3">Recent Transactions</h4>
+<div class="card" style="margin-top: 2rem;">
+    <h3 style="margin-bottom: 1.5rem; color: var(--text-main);">Recent Transactions</h3>
 
-    <table class="table table-dark table-hover">
-        <thead>
-            <tr>
-                <th>Student</th>
-                <th>Equipment</th>
-                <th>Qty</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for record in recent_records %}
-            <tr>
-                <td>{{ record.student }}</td>
-                <td>{{ record.equipment }}</td>
-                <td>{{ record.quantity }}</td>
-                <td>{{ record.status }}</td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4">No transactions found.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Equipment</th>
+                    <th>Qty</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in recent_records %}
+                <tr>
+                    <td>{{ record.student }}</td>
+                    <td>{{ record.equipment }}</td>
+                    <td>{{ record.quantity }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if record.status == 'Borrowed' %}badge-info
+                            {% elif record.status == 'Returned' %}badge-success
+                            {% elif record.status == 'Overdue' %}badge-danger
+                            {% else %}badge-warning{% endif %}">
+                            {{ record.status }}
+                        </span>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 2rem;">No transactions found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<style>
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .stat-card {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-top: 4px solid var(--primary);
+    }
+    
+    .stat-title {
+        color: var(--text-muted);
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-value {
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: var(--text-main);
+    }
+</style>
 {% endblock %}

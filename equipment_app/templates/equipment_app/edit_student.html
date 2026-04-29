@@ -1,34 +1,38 @@
 {% extends 'equipment_app/base.html' %}
 
 {% block content %}
-<h2 class="mb-4">Edit Student</h2>
+<div class="page-header">
+    <h1 class="page-title">Edit Student</h1>
+</div>
 
-<div class="card-box">
+<div class="card" style="max-width: 600px;">
     <form method="post">
         {% csrf_token %}
 
-        <div class="mb-3">
-            <label>Student ID</label>
+        <div class="form-group">
+            <label class="form-label">Student ID</label>
             <input type="text" name="student_id" class="form-control" value="{{ student.student_id }}" required>
         </div>
 
-        <div class="mb-3">
-            <label>Name</label>
+        <div class="form-group">
+            <label class="form-label">Name</label>
             <input type="text" name="name" class="form-control" value="{{ student.name }}" required>
         </div>
 
-        <div class="mb-3">
-            <label>Course</label>
+        <div class="form-group">
+            <label class="form-label">Course</label>
             <input type="text" name="course" class="form-control" value="{{ student.course }}" required>
         </div>
 
-        <div class="mb-3">
-            <label>Year Level</label>
-            <input type="number" name="year_level" class="form-control" value="{{ student.year_level }}" required>
+        <div class="form-group">
+            <label class="form-label">Year Level</label>
+            <input type="number" name="year_level" class="form-control" value="{{ student.year_level }}" required min="1" max="6">
         </div>
 
-        <button class="btn btn-success">Update Student</button>
-        <a href="/students/" class="btn btn-secondary">Back</a>
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary">Update Student</button>
+            <a href="/students/" class="btn" style="background-color: #f3f4f6; color: #374151; border: 1px solid #d1d5db;">Cancel</a>
+        </div>
     </form>
 </div>
 {% endblock %}
